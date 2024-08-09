@@ -71,18 +71,15 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
    * The service allows external access to the Flask application while balancing traffic across the three replicas. 
  
 6. **Deployment Process**
+   * The deployment of the Flask web application involves several key steps to ensure it is properly built, containerized, and deployed to GKE:
+   * *** i. Building the Docker Image:*** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
+       `docker build --platform linux/amd64 -t gcr.io/<YOUR-PROJECT_NAME>/hello-server .`
 
-The deployment of the Flask web application involves several key steps to ensure it is properly built, containerized, and deployed to GKE:
-
-i. ***Building the Docker Image:*** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
-
-   `docker build --platform linux/amd64 -t gcr.io/<YOUR-PROJECT_NAME>/hello-server .`
-
-ii. ***Pushing the Docker Image to Google Container Registry (GCR):***The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
+   * *** ii. Pushing the Docker Image to Google Container Registry (GCR):*** The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
 
    `docker push gcr.io/<YOUR-PROJECT_NAME>/hello-server`
 
-iii. ***Applying Kubernetes Configurations:*** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster. Before proceeding, please edit your deployment.yaml with your PROJECT_NAME, REGION_NAME and DATABASE_NAME.
+  * iii. ***Applying Kubernetes Configurations:*** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster. Before proceeding, please edit your deployment.yaml with your PROJECT_NAME, REGION_NAME and DATABASE_NAME.
 
    `kubectl apply -f ConfigMap.yaml`  
    `kubectl apply -f Secrets.yaml`  
