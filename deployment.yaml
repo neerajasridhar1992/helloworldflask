@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-server-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-server
+  template:
+    metadata:
+      labels:
+        app: hello-server
+    spec:
+      containers:
+      - name: hello-server
+        image: gcr.io/chromatic-theme-431923-a9/hello-server:latest
+        command: ["python", "main.py"]
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "0.05"
+        ports:
+        - containerPort: 5000
+        env:
+        - name: CLOUDSQL_CONNECTION_NAME
+          value: "chromatic-theme-431923-a9:us-west2:hello-world-db"
+        - name: DATABASE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: sql-credentials
+              key: username
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sql-credentials
+              key: password
+        - name: DB_NAME
+          valueFrom:
+                configMapKeyRef:
+                  name: flask-app-config
+                  key: DATABASE_NAME
+        - name: DB_HOST
+          valueFrom:
+                configMapKeyRef:
+                  name: flask-app-config
+                  key: DATABASE_HOST
+        - name: DB_PORT
+          valueFrom:
+                configMapKeyRef:
+                  name: flask-app-config
+                  key: DATABASE_PORT
+        - name: PORT
+          valueFrom:
+                configMapKeyRef:
+                  name: flask-app-config
+                  key: PORT
+
+        - name: GOOGLE_APP_CREDENTIALS
+          valueFrom:
+            secretKeyRef:
+              name: cloud-sql-key
+              key: key.json
+      - name: cloudsql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:latest
+        args:
+          - "-ip_address_types=PRIVATE"
+        command: ["/cloud_sql_proxy",
+                    "-instances=chromatic-theme-431923-a9:us-west2:hello-world-db=tcp:5432",
+                    "-credential_file=/secrets/cloudsql/key.json"]
+        # [START cloudsql_security_context]
+        securityContext:
+          runAsUser: 2  # non-root user
+          allowPrivilegeEscalation: false
+        # [END cloudsql_security_context]
+        volumeMounts:
+          - name: cloudsql-instance-credentials
+            mountPath: /secrets/cloudsql
+            readOnly: true
+        # [END proxy_container]
+      # [START volumes]
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: google-creds
+      # [END volumes]
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-server-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 5000
+  selector:
+    app: hello-server
