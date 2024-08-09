@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: hello-server
-        image: gcr.io/chromatic-theme-431923-a9/hello-server:latest
+        image: gcr.io/<YOUR_PROJECT_NAME>/hello-server:latest
         command: ["python", "main.py"]
         resources:
           requests:
