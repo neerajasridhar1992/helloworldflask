@@ -47,13 +47,13 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
    *The infrastructure was defined using Terraform and deployed with `terraform apply`.
    *Please update the variables.tf with your project name before proceeding.
    * After deployment, various Google Cloud APIs were enabled to ensure proper functionality of the web application and its integration with other services.  
-3. **Developing the Web Application:**  
+2. **Developing the Web Application:**  
    * A simple Flask web application was developed locally. The application connects to the Cloud SQL PostgreSQL database to retrieve and display data.  
    * The right database driver (`pg8000`) was selected to ensure compatibility with PostgreSQL, after initially attempting to use `pymysql` (which is meant for MySQL).  
-4. **Dockerizing the Application:**  
+3. **Dockerizing the Application:**  
    * The Flask application was containerized using Docker, with environment variables configured to match the GKE environment. This included database connection details.  
    * The Docker image was then pushed to Google Container Registry (GCR) for use in the Kubernetes deployment.  
-5. **Defining the Kubernetes Deployment/Secrets/ConfigMaps:**
+4. **Defining the Kubernetes Deployment/Secrets/ConfigMaps:**
 
    * The Kubernetes deployment was configured to use two containers:  
      1. Hello-Server Container: Runs the Flask application, using environment variables (such as database credentials) provided via Kubernetes secrets and ConfigMaps.  
@@ -63,31 +63,31 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
           
         gcloud iam service-accounts keys create credentials.json \--iam-account=sql-access2@YOUR\_PROJECT\_ID.iam.gserviceaccount.com
 
-6. **Service Configuration:**  
+5. **Service Configuration:**  
    * A LoadBalancer service was configured to expose the application, mapping port 80 to the application's container port 5000\.  
    * The service allows external access to the Flask application while balancing traffic across the three replicas.  
-7. **Deployment Process**
+6. **Deployment Process**
 
 The deployment of the Flask web application involves several key steps to ensure it is properly built, containerized, and deployed to GKE:
 
-1. **Building the Docker Image:** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
+1. ***Building the Docker Image:*** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
 
    `docker build --platform linux/amd64 -t gcr.io/<my-project-name>/hello-server .`
 
-2. **Pushing the Docker Image to Google Container Registry (GCR):**The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
+2. ***Pushing the Docker Image to Google Container Registry (GCR):***The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
 
    `docker push gcr.io/<my-project-name>/hello-server`
 
-3. **Applying Kubernetes Configurations:** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster.
+3. ***Applying Kubernetes Configurations:*** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster.
 
    `kubectl apply -f ConfigMap.yaml`  
    `kubectl apply -f Secrets.yaml`  
    `kubectl apply -f deployment.yaml`
 
-**7\. Challenges & Solutions:**
+***7\. Challenges & Solutions:***
 
-1. **Database Connection Issues:** Initially, I used the pymysql driver, which is intended for MySQL, while the database was PostgreSQL. This caused connection issues. After realizing the mistake, I switched to a PostgreSQL-compatible driver, ensuring the application could connect to the database successfully.  
-   2. **Service Account Key Creation:** While I intended to create the service account keys directly through Terraform, I encountered a JSON marshaling error. To proceed with the project, I temporarily used the gcloud CLI to generate the keys manually. In a production setting, I would resolve this issue to automate the key creation process fully.
+1. ***Database Connection Issues:*** Initially, I used the pymysql driver, which is intended for MySQL, while the database was PostgreSQL. This caused connection issues. After realizing the mistake, I switched to a PostgreSQL-compatible driver, ensuring the application could connect to the database successfully.  
+   2. ***Service Account Key Creation:*** While I intended to create the service account keys directly through Terraform, I encountered a JSON marshaling error. To proceed with the project, I temporarily used the gcloud CLI to generate the keys manually. In a production setting, I would resolve this issue to automate the key creation process fully.
 
 ### **Monitoring**
 
