@@ -39,7 +39,7 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 
 * **Service:** A Kubernetes LoadBalancer service is used to expose the application to the internet. It automatically balances incoming traffic across all replicas of the application, ensuring high availability.
 
-## **Application Deployment**
+## **Application Deployment prep**
 
 **The deployment process involves several key steps:**
 
@@ -70,22 +70,22 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
    * A LoadBalancer service was configured to expose the application, mapping port 80 to the application's container port 5000\.  
    * The service allows external access to the Flask application while balancing traffic across the three replicas. 
  
-6. **Deployment Process**
-   * The deployment of the Flask web application involves several key steps to ensure it is properly built, containerized, and deployed to GKE:
-   * *** i. Building the Docker Image:*** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
+## **Deployment Process**
+The deployment of the Flask web application involves several key steps to ensure it is properly built, containerized, and deployed to GKE:
+1. **Building the Docker Image:** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
        `docker build --platform linux/amd64 -t gcr.io/<YOUR-PROJECT_NAME>/hello-server .`
-
-   * *** ii. Pushing the Docker Image to Google Container Registry (GCR):*** The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
+   
+2. **Pushing the Docker Image to Google Container Registry (GCR):** The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
 
    `docker push gcr.io/<YOUR-PROJECT_NAME>/hello-server`
 
-  * iii. ***Applying Kubernetes Configurations:*** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster. Before proceeding, please edit your deployment.yaml with your PROJECT_NAME, REGION_NAME and DATABASE_NAME.
+3. **Applying Kubernetes Configurations:** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster. Before proceeding, please edit your deployment.yaml with your PROJECT_NAME, REGION_NAME and DATABASE_NAME.
 
    `kubectl apply -f ConfigMap.yaml`  
    `kubectl apply -f Secrets.yaml`  
    `kubectl apply -f deployment.yaml`
 
-***7\. Challenges & Solutions:***
+## **Challenges & Solutions:**
 
  i. ***Database Connection Issues:*** Initially, I used the pymysql driver, which is intended for MySQL, while the database was PostgreSQL. This caused connection issues. After realizing the mistake, I switched to a PostgreSQL-compatible driver, ensuring the application could connect to the database successfully.  
 
