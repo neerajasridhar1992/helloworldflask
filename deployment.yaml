@@ -24,7 +24,7 @@ spec:
         - containerPort: 5000
         env:
         - name: CLOUDSQL_CONNECTION_NAME
-          value: "chromatic-theme-431923-a9:us-west2:hello-world-db"
+          value: "<YOUR_PROJECT_NAME>:<REGION_NAME>:<DATABASE_NAME>"
         - name: DATABASE_USERNAME
           valueFrom:
             secretKeyRef:
