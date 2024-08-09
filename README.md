@@ -56,10 +56,10 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 4. **Defining the Kubernetes Deployment/Secrets/ConfigMaps:**
 
    * The Kubernetes deployment was configured to use two containers:  
-     1. Hello-Server Container: Runs the Flask application, using environment variables (such as database credentials) provided via Kubernetes secrets and ConfigMaps.  
-     2. Cloud SQL Proxy Container: A sidecar container that securely connects the application to the Cloud SQL instance using the service account credentials.  
-     3. Secret.yaml: Database credentials were loaded using Kubernetes Secrets. While Kubernetes Secrets provides base64 encoding for the data, this method is not secure enough for sensitive information. For better security, it is advisable to use a dedicated secrets management solution like HashiCorp Vault or Google Cloud Secret Manager, which offers encryption and more secure handling of sensitive data.  
-     4. Google Service Account Credentials: An environment variable was set up for the Google credentials linked to the service account created via Terraform. These credentials are needed to connect to the Cloud SQL Proxy. The credentials were generated using the following gcloud CLI command:  
+     i. Hello-Server Container: Runs the Flask application, using environment variables (such as database credentials) provided via Kubernetes secrets and ConfigMaps.  
+     ii. Cloud SQL Proxy Container: A sidecar container that securely connects the application to the Cloud SQL instance using the service account credentials.  
+     iii. Secret.yaml: Database credentials were loaded using Kubernetes Secrets. While Kubernetes Secrets provides base64 encoding for the data, this method is not secure enough for sensitive information. For better security, it is advisable to use a dedicated secrets management solution like HashiCorp Vault or Google Cloud Secret Manager, which offers encryption and more secure handling of sensitive data.  
+     iv. Google Service Account Credentials: An environment variable was set up for the Google credentials linked to the service account created via Terraform. These credentials are needed to connect to the Cloud SQL Proxy. The credentials were generated using the following gcloud CLI command:  
           
         gcloud iam service-accounts keys create credentials.json \--iam-account=sql-access2@YOUR\_PROJECT\_ID.iam.gserviceaccount.com
 
@@ -70,15 +70,15 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 
 The deployment of the Flask web application involves several key steps to ensure it is properly built, containerized, and deployed to GKE:
 
-1. ***Building the Docker Image:*** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
+i. ***Building the Docker Image:*** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
 
    `docker build --platform linux/amd64 -t gcr.io/<my-project-name>/hello-server .`
 
-2. ***Pushing the Docker Image to Google Container Registry (GCR):***The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
+ii. ***Pushing the Docker Image to Google Container Registry (GCR):***The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
 
    `docker push gcr.io/<my-project-name>/hello-server`
 
-3. ***Applying Kubernetes Configurations:*** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster.
+iii. ***Applying Kubernetes Configurations:*** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster.
 
    `kubectl apply -f ConfigMap.yaml`  
    `kubectl apply -f Secrets.yaml`  
@@ -86,8 +86,8 @@ The deployment of the Flask web application involves several key steps to ensure
 
 ***7\. Challenges & Solutions:***
 
-1. ***Database Connection Issues:*** Initially, I used the pymysql driver, which is intended for MySQL, while the database was PostgreSQL. This caused connection issues. After realizing the mistake, I switched to a PostgreSQL-compatible driver, ensuring the application could connect to the database successfully.  
-   2. ***Service Account Key Creation:*** While I intended to create the service account keys directly through Terraform, I encountered a JSON marshaling error. To proceed with the project, I temporarily used the gcloud CLI to generate the keys manually. In a production setting, I would resolve this issue to automate the key creation process fully.
+ i. ***Database Connection Issues:*** Initially, I used the pymysql driver, which is intended for MySQL, while the database was PostgreSQL. This caused connection issues. After realizing the mistake, I switched to a PostgreSQL-compatible driver, ensuring the application could connect to the database successfully.  
+ ii. ***Service Account Key Creation:*** While I intended to create the service account keys directly through Terraform, I encountered a JSON marshaling error. To proceed with the project, I temporarily used the gcloud CLI to generate the keys manually. In a production setting, I would resolve this issue to automate the key creation process fully.
 
 ### **Monitoring**
 
