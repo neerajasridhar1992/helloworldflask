@@ -66,7 +66,7 @@ spec:
         args:
           - "-ip_address_types=PRIVATE"
         command: ["/cloud_sql_proxy",
-                    "-instances=chromatic-theme-431923-a9:us-west2:hello-world-db=tcp:5432",
+                    "-instances=<YOUR_PROJECT_NAME>:<REGION>:<DATABASE_NAME>=tcp:5432",
                     "-credential_file=/secrets/cloudsql/key.json"]
         # [START cloudsql_security_context]
         securityContext:
