@@ -53,9 +53,3 @@ resource "google_service_account_key" "cloud_sql_key" {
   key_algorithm      = "KEY_ALG_RSA_2048"
 }
 
-(* output "service_account_key" {
-  value     = google_service_account_key.cloud_sql_key.private_key
-  sensitive = true
-} *)
-(* # terraform output service_account_key > credentials.json -> to gather the credentials
- *)
