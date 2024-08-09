@@ -44,8 +44,8 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 **The deployment process involves several key steps:**
 
 1. **Defining the Infrastructure:**  
-   *The infrastructure was defined using Terraform and deployed with `terraform apply`.
-   *Please update the variables.tf with your project name before proceeding.
+   * The infrastructure was defined using Terraform and deployed with `terraform apply`.
+   * Please update the variables.tf with your project name before proceeding.
    * After deployment, various Google Cloud APIs were enabled to ensure proper functionality of the web application and its integration with other services.  
 2. **Developing the Web Application:**  
    * A simple Flask web application was developed locally. The application connects to the Cloud SQL PostgreSQL database to retrieve and display data.  
