@@ -57,15 +57,19 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 
    * The Kubernetes deployment was configured to use two containers:  
      i. Hello-Server Container: Runs the Flask application, using environment variables (such as database credentials) provided via Kubernetes secrets and ConfigMaps.  
+
      ii. Cloud SQL Proxy Container: A sidecar container that securely connects the application to the Cloud SQL instance using the service account credentials.  
+
      iii. Secret.yaml: Database credentials were loaded using Kubernetes Secrets. While Kubernetes Secrets provides base64 encoding for the data, this method is not secure enough for sensitive information. For better security, it is advisable to use a dedicated secrets management solution like HashiCorp Vault or Google Cloud Secret Manager, which offers encryption and more secure handling of sensitive data.  
+
      iv. Google Service Account Credentials: An environment variable was set up for the Google credentials linked to the service account created via Terraform. These credentials are needed to connect to the Cloud SQL Proxy. The credentials were generated using the following gcloud CLI command:  
           
-        gcloud iam service-accounts keys create credentials.json \--iam-account=sql-access2@YOUR\_PROJECT\_ID.iam.gserviceaccount.com
+        gcloud iam service-accounts keys create credentials.json \--iam-account=sql-access@YOUR\_PROJECT\_ID.iam.gserviceaccount.com
 
 5. **Service Configuration:**  
    * A LoadBalancer service was configured to expose the application, mapping port 80 to the application's container port 5000\.  
-   * The service allows external access to the Flask application while balancing traffic across the three replicas.  
+   * The service allows external access to the Flask application while balancing traffic across the three replicas. 
+ 
 6. **Deployment Process**
 
 The deployment of the Flask web application involves several key steps to ensure it is properly built, containerized, and deployed to GKE:
@@ -87,6 +91,7 @@ iii. ***Applying Kubernetes Configurations:*** The Kubernetes configurations, in
 ***7\. Challenges & Solutions:***
 
  i. ***Database Connection Issues:*** Initially, I used the pymysql driver, which is intended for MySQL, while the database was PostgreSQL. This caused connection issues. After realizing the mistake, I switched to a PostgreSQL-compatible driver, ensuring the application could connect to the database successfully.  
+
  ii. ***Service Account Key Creation:*** While I intended to create the service account keys directly through Terraform, I encountered a JSON marshaling error. To proceed with the project, I temporarily used the gcloud CLI to generate the keys manually. In a production setting, I would resolve this issue to automate the key creation process fully.
 
 ### **Monitoring**
