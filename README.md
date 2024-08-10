@@ -97,7 +97,7 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
        `base64 -i <password>`
      *  The infrastructure can now be defined using Terraform and deployed with `terraform apply`. It takes about 10 mins on average to complete creation of a gke cluster and a cloudsql instance.
      *  Once the apply finishes, it will output the cloudsql instance name, please update the <cloudsql_instance_connection_name> in k8s/deployment.yaml at line 27 and 68.
-     *  
+       
 
 
 2. **Building the Docker Image:**
