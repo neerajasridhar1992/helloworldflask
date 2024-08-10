@@ -155,7 +155,7 @@ Reason: Tracking error rates (e.g., HTTP 5xx errors) helps identify issues with 
 ##### Request Rate:
 Reason: Monitoring the number of requests per second can help in understanding the application's load and identifying traffic patterns. It also aids in scaling decisions.
 
-#### ** 2. Infrastructure Metrics:**
+#### **2. Infrastructure Metrics:**
 
 ##### CPU and Memory Usage:
 Reason: High CPU or memory usage can indicate performance issues or resource constraints. Monitoring these metrics helps ensure that the application has sufficient resources to function efficiently.
