@@ -8,25 +8,18 @@
                 ||----w |
                 ||     ||
 ```
-Table Of Contents
 
-   [Infrastructure Overview](README.md#infrastructure-overview)
-   
-   [Why I chose these?](README.md#explanation-of-choices)
-   
-   [Deployment Process Explained](README.md#application-deployment-info)
-
-   [How to deploy this app?](README.md#how-to-get-this-app-running)
-
-   [Challenges](README.md#challenges--solutions)
-
-   [Monitoring](README.md#monitoring)
-
-   
-
-# **Deploying a Flask Web Application on GKE with Cloud SQL and Terraform.**
+# **Deploying a Flask Web Application on GKE with Cloud SQL and Terraform.**  
 
 This project demonstrates a simple Flask web application deployed on Google Kubernetes Engine (GKE) using a Google Cloud SQL PostgreSQL database. The infrastructure is defined and managed using Terraform, ensuring a reproducible and scalable environment. The goal is to demonstrate the ability to deploy a cloud-native application and manage it using modern DevOps practices.
+
+##Table Of Contents
+- [Infrastructure Overview](README.md#infrastructure-overview)
+- [Why I chose these?](README.md#explanation-of-choices)
+- [Deployment Process Explained](README.md#application-deployment-info)
+- [How to deploy this app?](README.md#how-to-get-this-app-running)
+- [Challenges](README.md#challenges--solutions)
+- [Monitoring](README.md#monitoring)
 
 ## **Infrastructure Overview**
 
