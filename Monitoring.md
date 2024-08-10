@@ -1,4 +1,6 @@
-## **Monitoring**
+# **Monitoring**
+
+### ** Why these?**
 
 **Chosen Monitoring Solution:** 
   I would use Google Cloud Monitoring and Logging for monitoring System Metrics & Prometheus Client for Application Metrics.
