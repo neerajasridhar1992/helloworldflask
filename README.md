@@ -38,33 +38,16 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 
 * **Service:** A Kubernetes LoadBalancer service is used to expose the application to the internet. It automatically balances incoming traffic across all replicas of the application, ensuring high availability.
 
-## **Application Deployment prep**
+## **Application Deployment Info**
 
 **The deployment process involves several key steps:**
 
 1. **Defining the Infrastructure:**
-   * Before proceeding with applying the Infrastructure changes, please make the following changes for the code to work as intended:
-     * Change your config to point to your project where you will set up all the Infrastructure and Enable all the APIS mentioned as mentioned below, 
-       ```
-       gcloud config set project <project-name>
-       gcloud services enable artifactregistry.googleapis.com
-       gcloud services enable compute.googleapis.com
-       gcloud services enable sqladmin.googleapis.com
-       gcloud services enable sql-component.googleapis.com
-       gcloud services enable container.googleapis.com
-       gcloud services enable cloudbuild.googleapis.com
-       gcloud services enable servicenetworking.googleapis.com
-       gcloud services enable iam.googleapis.com
-       ```
-     * Update the variables.tf file with your project name and region name
-     * Update the google_sql_user in the main.tf file, provide your custom username and password for the user.
-     * base64 the username and password provided in step ii, and mention the corresponding base64 encoded username and password in the Secret.yaml file.
-   * The infrastructure was defined using Terraform and deployed with `terraform apply`.
-   * Please update the variables.tf with your project name before proceeding.
-   * After deployment, various Google Cloud APIs were enabled to ensure proper functionality of the web application and its integration with other services.
-   * It takes about 10 mins on average to complete creation of a gke cluster and a cloudsql instance. 
-3. **Developing the Web Application:**  
-   * A simple Flask web application was developed locally. The application connects to the Cloud SQL PostgreSQL database to retrieve and display data.  
+The infrastructure was defined using Terraform and deployed with terraform apply.
+After deployment, various Google Cloud APIs were enabled to ensure proper functionality of the web application and its integration with other services.
+
+2. **Developing the Web Application:**  
+   * A simple Flask web application was developed to work well locally. The application connects to the Cloud SQL PostgreSQL database to retrieve and display data.  
    * The right database driver (`pg8000`) was selected to ensure compatibility with PostgreSQL, after initially attempting to use `pymysql` (which is meant for MySQL).  
 4. **Dockerizing the Application:**  
    * The Flask application was containerized using Docker, with environment variables configured to match the GKE environment. This included database connection details.  
@@ -87,20 +70,40 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
    * The service allows external access to the Flask application while balancing traffic across the three replicas. 
  
 ## **Deployment Process**
+1. **Creating the Infrastructure through Terraform:**
+   * Before proceeding with applying the Infrastructure changes, please make the following changes for the code to work as intended:
+     * Change your config to point to your project where you will set up all the Infrastructure and Enable all the APIS mentioned as mentioned below, 
+       ```
+       gcloud config set project <project-name>
+       gcloud services enable artifactregistry.googleapis.com
+       gcloud services enable compute.googleapis.com
+       gcloud services enable sqladmin.googleapis.com
+       gcloud services enable sql-component.googleapis.com
+       gcloud services enable container.googleapis.com
+       gcloud services enable cloudbuild.googleapis.com
+       gcloud services enable servicenetworking.googleapis.com
+       gcloud services enable iam.googleapis.com
+       ```
+     * Update the variables.tf file with your project name and region name
+     * Update the google_sql_user in the main.tf file, provide your custom username and password for the user.
+     * base64 the username and password provided in step ii, and mention the corresponding base64 encoded username and password in the Secret.yaml file.
+   * The infrastructure can now be defined using Terraform and deployed with `terraform apply`.
+   * Please update the variables.tf with your project name before proceeding.
+   * It takes about 10 mins on average to complete creation of a gke cluster and a cloudsql instance. 
 The deployment of the Flask web application involves several key steps to ensure it is properly built, containerized, and deployed to GKE:
-1. **Building the Docker Image:** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
+2. **Building the Docker Image:** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
        `docker build --platform linux/amd64 -t gcr.io/<project-name>/hello-server .`
    
-2. **Pushing the Docker Image to Google Container Registry (GCR):** The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
+3. **Pushing the Docker Image to Google Container Registry (GCR):** The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
 
    `docker push gcr.io/<project-name>/hello-server`
 
-3. **Applying Kubernetes Configurations:** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster. Before proceeding, please edit your deployment.yaml with your PROJECT_NAME, REGION_NAME and DATABASE_NAME.
+4. **Applying Kubernetes Configurations:** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster. Before proceeding, please edit your deployment.yaml with your PROJECT_NAME, REGION_NAME and DATABASE_NAME.
 
    `kubectl apply -f ConfigMap.yaml`  
    `kubectl apply -f Secrets.yaml`  
    `kubectl apply -f deployment.yaml`
-4. **Checking for the app:** The apply should have created your deployment which should have as many pods as defined by the replicas, and each pod should have two containers. The pods were up within 10 mins(less than a min, if just one replica, about 5-6 mins if replicas=2/3). Once the deployment is ready, you can check your GKE workloads for this deployment, drop down to where the UI mentions the Exposing service endpoint, <end-point>, lets say. Open a browser tab and <end-point>/greeting/1, should print Hello-World
+5. **Checking for the app:** The apply should have created your deployment which should have as many pods as defined by the replicas, and each pod should have two containers. The pods were up within 10 mins(less than a min, if just one replica, about 5-6 mins if replicas=2/3). Once the deployment is ready, you can check your GKE workloads for this deployment, drop down to where the UI mentions the Exposing service endpoint, <end-point>, lets say. Open a browser tab and <end-point>/greeting/1, should print Hello-World
 ## **Challenges & Solutions:**
 
  i. ***Database Connection Issues:*** Initially, I used the pymysql driver, which is intended for MySQL, while the database was PostgreSQL. This caused connection issues. After realizing the mistake, I switched to a PostgreSQL-compatible driver, ensuring the application could connect to the database successfully.  
