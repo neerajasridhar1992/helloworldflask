@@ -107,7 +107,7 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 ## Monitoring
 * Discussed about monitoring here: [Monitoring](https://github.com/neerajasridhar1992/helloworldflask/blob/main/Monitoring.md)
 
-### **Future Improvements**
+## **Future Improvements**
 
 * **Automate Service Account Key Creation:** Currently, service account keys were manually generated using the `gcloud` CLI due to a Terraform limitation. As a next step, I would investigate and resolve the Terraform issue to automate this process fully.  
 * **Implement TLS:** While not required for this assignment, implementing TLS for secure communication between the client and server would be an important enhancement for a production environment. This would involve using certificates maybe from Google Certificate Authority and defining Ingress, and updating DNS.  
