@@ -9,10 +9,10 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 # Copy the application files
-COPY helloworld.py helloworld.py
+COPY main.py main.py
 
 # Expose the port the app runs on
 EXPOSE 8080
 
 # Run the application
-CMD ["python", "helloworld.py"]
+CMD ["python", "main.py"]
