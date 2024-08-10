@@ -72,6 +72,7 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
 ## **Deployment Process**
 1. **Creating the Infrastructure through Terraform:**
    * Before proceeding with applying the Infrastructure changes, please make the following changes for the code to work as intended:
+     * cd to the terraform directory
      * Change your config to point to your project where you will set up all the Infrastructure and Enable all the APIS mentioned as mentioned below, 
        ```
        gcloud config set project <project-name>
@@ -90,11 +91,7 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
        `base64 -i <username>`
        `base64 -i <password>`
    *  The infrastructure can now be defined using Terraform and deployed with `terraform apply`. It takes about 10 mins on average to complete creation of a gke cluster and a cloudsql instance. Once the apply finishes, it will output the cloudsql instance name, please update the <cloudsql_instance_connection_name> in deployment.yaml at line 27 and 68.
-   *  Gather the email address of the sql-access service account. The following command should gather that for you
-     `gcloud iam service-accounts list --project=<projectname> | grep sql-accesss`
-Please use this command to generate the credentials.json, that is used in the GoogleCredsSecret.yaml:
-   *  
-     `gcloud iam service-accounts keys create credentials.json \--iam-account=<emailofserviceaccount>`
+
 The deployment of the Flask web application involves several key steps to ensure it is properly built, containerized, and deployed to GKE:
 2. **Building the Docker Image:** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
        `docker build --platform linux/amd64 -t gcr.io/<project-name>/hello-server .`
@@ -103,12 +100,19 @@ The deployment of the Flask web application involves several key steps to ensure
 
    `docker push gcr.io/<project-name>/hello-server`
 
-4. **Applying Kubernetes Configurations:** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster. Before proceeding, please edit your deployment.yaml with your PROJECT_NAME, REGION_NAME and DATABASE_NAME.
+4. **Applying Kubernetes Configurations:** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster.
+   * cd to the k8s directory
+   * Gather the email address of the sql-access service account. The following command should gather that for you
+     `gcloud iam service-accounts list --project=<projectname> | grep sql-accesss`
+   * Please use this command to generate the credentials.json, that is used in the GoogleCredsSecret.yaml:
+     `gcloud iam service-accounts keys create credentials.json \--iam-account=<emailofserviceaccount>`
+   * The previous command would have created a credentials.json file for you. Replace the empty { } in line 8 and 9 with the contents of credentials.json.
+   * Go ahead and run the following commands in that order to create all the neccesary k8s objects.
 
    `kubectl apply -f ConfigMap.yaml`  
    `kubectl apply -f Secrets.yaml`  
    `kubectl apply -f deployment.yaml`
-5. **Checking for the app:** The apply should have created your deployment which should have as many pods as defined by the replicas, and each pod should have two containers. The pods were up within 10 mins(less than a min, if just one replica, about 5-6 mins if replicas=2/3). Once the deployment is ready, you can check your GKE workloads for this deployment, drop down to where the UI mentions the Exposing service endpoint, <end-point>, lets say. Open a browser tab and <end-point>/greeting/1, should print Hello-World
+6. **Checking for the app:** The apply should have created your deployment which should have as many pods as defined by the replicas, and each pod should have two containers. The pods were up within 10 mins(less than a min, if just one replica, about 5-6 mins if replicas=2/3). Once the deployment is ready, you can check your GKE workloads for this deployment, drop down to where the UI mentions the Exposing service endpoint, <end-point>, lets say. Open a browser tab and <end-point>/greeting/1, should print Hello-World
 ## **Challenges & Solutions:**
 
  i. ***Database Connection Issues:*** Initially, I used the pymysql driver, which is intended for MySQL, while the database was PostgreSQL. This caused connection issues. After realizing the mistake, I switched to a PostgreSQL-compatible driver, ensuring the application could connect to the database successfully.  
