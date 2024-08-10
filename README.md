@@ -167,17 +167,25 @@ Metrics endpoint view:
 ![Uploading Screenshot 2024-08-10 at 1.15.43 AM.png…]()
 
 #### **2. Infrastructure Metrics:**
+##### CPU Usage:
+Metric: container/cpu/usage_time
+Reason: High CPU usage can indicate that the application is under heavy load. By monitoring this metric, you can ensure that your application has enough CPU resources to handle requests efficiently.
 
-##### CPU and Memory Usage:
-Reason: High CPU or memory usage can indicate performance issues or resource constraints. Monitoring these metrics helps ensure that the application has sufficient resources to function efficiently.
+##### Memory Usage:
+Metric: container/memory/usage
+Reason: Monitoring memory usage helps you detect memory leaks or resource exhaustion. High memory usage may lead to application crashes or degraded performance.
 
 ##### Pod Status:
+Metric: kubernetes/pod/condition
+Reason: Keeping track of pod conditions such as Ready, Scheduled, and Restarted helps ensure that all pods are running as expected and can handle incoming requests.
 
-Reason: Keeping track of pod status helps in identifying issues with deployment and ensuring that all pods are running as expected. It also helps in troubleshooting deployment failures.
+##### Network Traffic:
+Metric: container/network/received_bytes_count and container/network/sent_bytes_count
+Reason: Monitoring the volume of network traffic helps in identifying potential network bottlenecks, which can impact the application's performance.
 
-##### Disk I/O and Network Traffic:
-
-Reason: Monitoring disk I/O and network traffic helps in identifying potential bottlenecks related to storage and network performance, which can impact application performance.
+##### Disk I/O:
+Metric: container/disk/io_time
+Reason: High disk I/O can indicate that the application is reading or writing large amounts of data, which might slow down other operations. Monitoring this metric helps in optimizing storage performance.
 
 #### **3. Cloud SQL Metrics:**
 
