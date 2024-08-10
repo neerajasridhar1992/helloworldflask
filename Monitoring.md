@@ -43,6 +43,7 @@
 #### **Infrastructure Metrics:**
   - These are viewable in the Metrics Explorer in GCP.
   - These metrics can further be utilized to automatically scale the deployment when under heavy load.
+
 ##### CPU Usage:
   - Metric: container/cpu/usage_time and pod/cpu/usage_time
   - High CPU usage usually indicates that the application is under heavy load.
@@ -59,24 +60,29 @@
   - I am talking about the pod status while the deployment gets created, and even in general. Kubectl get po gives info about the pod. kubectl descrive pod gives comprehensive info as well. Similar options on Google Cloud monitoring exist as well.
 
 ##### Network Traffic:
-  - Metric: container/network/received_bytes_count and container/network/sent_bytes_count
-  - Monitoring the volume of network traffic helps in identifying potential network bottlenecks, which can impact the application's performance.
+  - Metric:
+    - container/network/received_bytes_count/
+    - pod/network/received_bytes_count
+    - container/network/sent_bytes_count
+    - pod/network/sent_bytes_count
+      
+  - This helps to identify potential network bottlenecks, which can impact the application's performance.
 
 ##### Disk I/O:
-  - Metric: container/disk/io_time
+  - We can look for Node Volume usage and consumption.
   - High disk I/O can indicate that the application is reading or writing large amounts of data, which might slow down other operations.
   - Monitoring this metric helps in optimizing storage performance.
 
 ##### Auto-Scaling Based on Metrics
-  To automatically scale your deployment when metrics exceed certain thresholds,  Horizontal Pod Autoscaling (HPA) can be setup. If CPU usage or memory usage exceeds some threshold (80% or so), the HPA can be setup to scale the pods. 
+  To automatically scale the deployment when metrics exceed certain thresholds,  Horizontal Pod Autoscaling (HPA) can be setup. If CPU usage or memory usage exceeds some threshold (80% or so), the HPA can be setup to scale the pods. 
 
 
 #### **3. Cloud SQL Metrics:**
 
-##### Query Performance:
+##### Query Insights:
   - Monitoring query performance metrics (e.g., query execution time) helps in identifying slow queries and optimizing database performance.
 
-##### Connection Metrics:
+##### System Metrics:
   - Tracking the number of connections and connection errors helps in managing database connection pools and ensuring stable connectivity.
 
 #### Other Services to Implement
