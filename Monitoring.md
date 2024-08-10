@@ -26,7 +26,7 @@ Reason: Tracking error rates (e.g., HTTP 5xx errors) helps identify issues with 
 ##### Request Rate:
 Reason: Monitoring the number of requests per second can help in understanding the application's load and identifying traffic patterns. It also aids in scaling decisions.
 Metrics endpoint view:
-![Uploading Screenshot 2024-08-10 at 1.15.43 AM.png…]()
+[Metrics server look](https://github.com/neerajasridhar1992/helloworldflask/blob/main/metrics-endpoint.png?raw=true)
 
 #### **2. Infrastructure Metrics:**
 These metrics can further be utilized to automatically scale the deployment when under heavy load.
