@@ -137,16 +137,67 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
 
 ## **Monitoring**
 
-To ensure the application runs smoothly and to detect potential issues early, monitoring is a critical aspect of this setup.  
-To monitor the application and ensure its reliability, the following approach would be taken:
+### **Chosen Monitoring Solution:** Google Cloud Monitoring and Logging
 
-* **Google Cloud's Operations Suite:** This is anyways enabled by default for the Autopilot GKE clusters, and ours is one such. This suite allows for tracking key metrics such as CPU usage, memory consumption, and request latency. Additionally, it provides built-in alerting capabilities to notify when resource usage exceeds predefined thresholds or when other critical events occur.  
-* **Prometheus & Grafana:** For more advanced monitoring, Prometheus could be used for collecting metrics, and Grafana for visualizing them through custom dashboards.  
-* **OpenTelemetry for Flask:** The OpenTelemetry library can be used to instrument the Flask application for observability. By integrating OpenTelemetry, you can collect traces, metrics, and logs from your application. This helps in gaining comprehensive visibility into application performance and behavior. The collected traces can provide insights into request flows, and performance bottlenecks, and help in debugging issues.  
-* **Traces:** OpenTelemetry can track the journey of requests through your application, helping to identify slow components or errors.  
-* **Metrics:** Define custom metrics using OpenTelemetry to monitor key performance indicators. These metrics can be used to create Service Level Indicators (SLIs) and, consequently, Service Level Objectives (SLOs).  
-* **Logs:** Integrate logging with OpenTelemetry to correlate logs with traces and metrics, providing a unified view of application behavior.  
-* **Alerting:** Alerts would be set up to notify of issues like high resource utilization or database connection errors, ensuring timely responses to potential problems.
+**Reason for Choosing Google Cloud Monitoring and Logging:**
+1. Google Cloud Monitoring and Logging are natively integrated with Google Kubernetes Engine (GKE) and Cloud SQL. This integration simplifies the setup and management of monitoring and logging without requiring additional configuration or third-party tools.
+2. Google Cloud Monitoring provides comprehensive metrics for GKE, such as CPU and memory usage, pod status, and network traffic. Cloud Logging captures detailed logs from your application and infrastructure, allowing for in-depth troubleshooting and analysis.
+3. Google Cloud's monitoring and logging services are scalable and reliable, handling large volumes of data and providing high availability. This ensures that you can monitor your applications effectively as they grow.
+4. The ability to set up custom dashboards and alerts in Google Cloud Monitoring helps in proactively managing the health and performance of your application. Alerts can notify you of issues before they impact users.
+
+### **Metrics to Monitor**
+#### **1. Application Metrics:**
+
+##### Request Latency:
+Reason: Monitoring the latency of incoming requests helps ensure that the application is responding in a timely manner. High latency can indicate performance issues or bottlenecks.
+##### Error Rates:
+Reason: Tracking error rates (e.g., HTTP 5xx errors) helps identify issues with the application that may be causing failures. This metric is crucial for maintaining application reliability.
+##### Request Rate:
+Reason: Monitoring the number of requests per second can help in understanding the application's load and identifying traffic patterns. It also aids in scaling decisions.
+
+#### ** 2. Infrastructure Metrics:**
+
+##### CPU and Memory Usage:
+Reason: High CPU or memory usage can indicate performance issues or resource constraints. Monitoring these metrics helps ensure that the application has sufficient resources to function efficiently.
+
+##### Pod Status:
+
+Reason: Keeping track of pod status helps in identifying issues with deployment and ensuring that all pods are running as expected. It also helps in troubleshooting deployment failures.
+
+##### Disk I/O and Network Traffic:
+
+Reason: Monitoring disk I/O and network traffic helps in identifying potential bottlenecks related to storage and network performance, which can impact application performance.
+
+#### **3. Cloud SQL Metrics:**
+
+##### Query Performance:
+
+Reason: Monitoring query performance metrics (e.g., query execution time) helps in identifying slow queries and optimizing database performance.
+
+##### Connection Metrics:
+
+Reason: Tracking the number of connections and connection errors helps in managing database connection pools and ensuring stable connectivity.
+
+#### Other Services to Implement
+##### 1. Distributed Tracing:
+
+Reason: Implementing distributed tracing (e.g., using OpenTelemetry or Google Cloud Trace) allows for end-to-end visibility into request flows, helping identify latency issues and performance bottlenecks across services.
+
+##### 2. Error Reporting:
+
+Reason: Using a tool like Google Cloud Error Reporting can help aggregate and analyze application errors, providing insights into error trends and helping prioritize bug fixes.
+
+##### 3. Application Performance Management (APM):
+
+Reason: Implementing APM solutions (e.g., New Relic, Datadog) provides deeper insights into application performance, including transaction traces, code-level insights, and more.
+
+##### 4. Service-Level Objectives (SLOs) and Service-Level Indicators (SLIs):
+
+Reason: Defining SLOs and SLIs for your application helps in setting clear performance targets and measuring the application's reliability against those targets.
+
+##### 5. Custom Dashboards and Reporting:
+
+Reason: Creating custom dashboards tailored to your application's specific needs provides a comprehensive view of metrics and performance, allowing for more effective monitoring and management.
 
 ### **Future Improvements**
 
