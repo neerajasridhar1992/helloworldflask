@@ -90,8 +90,11 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
        `base64 -i <username>`
        `base64 -i <password>`
    *  The infrastructure can now be defined using Terraform and deployed with `terraform apply`. It takes about 10 mins on average to complete creation of a gke cluster and a cloudsql instance. Once the apply finishes, it will output the cloudsql instance name, please update the <cloudsql_instance_connection_name> in deployment.yaml at line 27 and 68.
-   *  Please use this command to generate the credentials.json, that is used in the GoogleCredsSecret.yaml:
-     `gcloud iam service-accounts keys create credentials.json \--iam-account=sql-access@<project_name>\_ID.iam.gserviceaccount.com`
+   *  Gather the email address of the sql-access service account. The following command should gather that for you
+     `gcloud iam service-accounts list --project=<projectname> | grep sql-accesss`
+Please use this command to generate the credentials.json, that is used in the GoogleCredsSecret.yaml:
+   *  
+     `gcloud iam service-accounts keys create credentials.json \--iam-account=<emailofserviceaccount>`
 The deployment of the Flask web application involves several key steps to ensure it is properly built, containerized, and deployed to GKE:
 2. **Building the Docker Image:** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
        `docker build --platform linux/amd64 -t gcr.io/<project-name>/hello-server .`
