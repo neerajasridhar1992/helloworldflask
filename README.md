@@ -32,9 +32,9 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 * **CloudSQL Proxy:** Google advises using the CloudSQL Proxy to securely connect applications running in GKE to Cloud SQL instances(Necessary reading involved: https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine](https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine*). This proxy handles authentication and maintains a stable connection, reducing the complexity of managing database connections in a cloud environment.
 
 * **GKE(Autopilot)/Kubernetes:**   
-  Why GKE? GKE provides a fully managed Kubernetes service, allowing me to focus on deploying and managing applications without worrying about the underlying infrastructure. Kubernetes is the industry-standard platform for container orchestration, offering robust tools for scaling, load balancing, and self-healing of applications.
+  * Why GKE? GKE provides a fully managed Kubernetes service, allowing me to focus on deploying and managing applications without worrying about the underlying infrastructure. Kubernetes is the industry-standard platform for container orchestration, offering robust tools for scaling, load balancing, and self-healing of applications.
 
-* Why Autopilot Mode? Autopilot mode simplifies cluster management by automating many operational tasks, such as node provisioning, scaling, and maintenance, which allows for more focus on application development and deployment rather than infrastructure management.
+  * Why Autopilot Mode? Autopilot mode simplifies cluster management by automating many operational tasks, such as node provisioning, scaling, and maintenance, which allows for more focus on application development and deployment rather than infrastructure management.
 
 * **Deployment:** The application is containerized and deployed as a Kubernetes deployment, ensuring that it can run reliably across multiple replicas. The deployment also manages rolling updates, scaling, and the self-healing of pods in case of failure.
 
