@@ -43,7 +43,7 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
   * Network Connectivity API (`networkconnectivity.googleapis.com`)
   * IAM API (`iam.googleapis.com`)
 
-### **Explanation of Choices**
+## **Explanation of Choices**
 
 * **Terraform:** Terraform was chosen to define the infrastructure as code due to its declarative syntax, support for versioning, and ability to manage a wide range of cloud resources. This approach ensures consistency and repeatability across environments.
 
