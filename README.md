@@ -61,7 +61,8 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
      * base64 the username and password provided in step ii, and mention the corresponding base64 encoded username and password in the Secret.yaml file.
    * The infrastructure was defined using Terraform and deployed with `terraform apply`.
    * Please update the variables.tf with your project name before proceeding.
-   * After deployment, various Google Cloud APIs were enabled to ensure proper functionality of the web application and its integration with other services.  
+   * After deployment, various Google Cloud APIs were enabled to ensure proper functionality of the web application and its integration with other services.
+   * It takes about 10 mins on average to complete creation of a gke cluster and a cloudsql instance. 
 3. **Developing the Web Application:**  
    * A simple Flask web application was developed locally. The application connects to the Cloud SQL PostgreSQL database to retrieve and display data.  
    * The right database driver (`pg8000`) was selected to ensure compatibility with PostgreSQL, after initially attempting to use `pymysql` (which is meant for MySQL).  
