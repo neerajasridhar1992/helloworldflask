@@ -41,7 +41,8 @@
 [Metrics server look](https://github.com/neerajasridhar1992/helloworldflask/blob/main/metrics-endpoint.png)
 
 #### **Infrastructure Metrics:**
-  These metrics can further be utilized to automatically scale the deployment when under heavy load.
+  - These are viewable in the Metrics Explorer in GCP.
+  - These metrics can further be utilized to automatically scale the deployment when under heavy load.
 ##### CPU Usage:
   - Metric: container/cpu/usage_time and pod/cpu/usage_time
   - High CPU usage usually indicates that the application is under heavy load.
