@@ -44,6 +44,10 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 **The deployment process involves several key steps:**
 
 1. **Defining the Infrastructure:**  
+   * Before proceeding with applying the Infrastructure changes, please make the following changes for the code to work as intended:
+     i. Update the variables.tf file with your project name and region name
+     ii. Update the google_sql_user in the main.tf file, provide your custom username and password for the user.
+     iii. base64 the username and password provided in step ii, and mention the corresponding base64 encoded username and password in the Secret.yaml file.
    * The infrastructure was defined using Terraform and deployed with `terraform apply`.
    * Please update the variables.tf with your project name before proceeding.
    * After deployment, various Google Cloud APIs were enabled to ensure proper functionality of the web application and its integration with other services.  
