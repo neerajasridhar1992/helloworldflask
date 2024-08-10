@@ -16,7 +16,7 @@ Table Of Contents
    
    [Deployment Process Explained](README.md#application-deployment-info)
 
-   [How to deploy this app?][README.md#
+   [How to deploy this app?](README.md#how-to-get-this-app-running?)
 
 # **Deploying a Flask Web Application on GKE with Cloud SQL and Terraform.**
 
