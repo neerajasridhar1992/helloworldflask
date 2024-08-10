@@ -29,9 +29,9 @@ resource "google_sql_database" "default" {
 }
 
 resource "google_sql_user" "default" {
-  name     = "user"
+  name     = "<username>"
   instance = google_sql_database_instance.default.name
-  password = "password"
+  password = "<password>"
 }
 
 resource "google_service_account" "cloud_sql_service_account" {
