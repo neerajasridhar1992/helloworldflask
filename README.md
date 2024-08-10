@@ -140,7 +140,7 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
 To ensure the application runs smoothly and to detect potential issues early, monitoring is a critical aspect of this setup.  
 To monitor the application and ensure its reliability, the following approach would be taken:
 
-* **Google Cloud's Operations Suite:** This suite allows for tracking key metrics such as CPU usage, memory consumption, and request latency. Additionally, it provides built-in alerting capabilities to notify when resource usage exceeds predefined thresholds or when other critical events occur.  
+* **Google Cloud's Operations Suite:** This is anyways enabled by default for the Autopilot GKE clusters, and ours is one such. This suite allows for tracking key metrics such as CPU usage, memory consumption, and request latency. Additionally, it provides built-in alerting capabilities to notify when resource usage exceeds predefined thresholds or when other critical events occur.  
 * **Prometheus & Grafana:** For more advanced monitoring, Prometheus could be used for collecting metrics, and Grafana for visualizing them through custom dashboards.  
 * **OpenTelemetry for Flask:** The OpenTelemetry library can be used to instrument the Flask application for observability. By integrating OpenTelemetry, you can collect traces, metrics, and logs from your application. This helps in gaining comprehensive visibility into application performance and behavior. The collected traces can provide insights into request flows, and performance bottlenecks, and help in debugging issues.  
 * **Traces:** OpenTelemetry can track the journey of requests through your application, helping to identify slow components or errors.  
