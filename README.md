@@ -89,7 +89,7 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
    * A LoadBalancer service was configured to expose the application, mapping port 80 to the application's container port 5000\.  
    * The service allows external access to the Flask application while balancing traffic across the three replicas. 
  
-## **Deployment Process**
+## **How to get this app running?**
 * Explained here: [Deploy Process](https://github.com/neerajasridhar1992/helloworldflask/blob/main/Deploy%20Process.md)
 
 ## **Challenges & Solutions:**
