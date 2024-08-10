@@ -49,12 +49,14 @@
   - High CPU usage usually indicates that the application is under heavy load.
   - By monitoring this metric, we can ensure that your application has enough CPU resources to handle requests efficiently.
   - Also, a HPA can be put in place to scale the deployment based on CPU load.
+  - [Sample Container CPU Metrics](https://github.com/neerajasridhar1992/helloworldflask/blob/main/container-cpu-usage.png)
 
 ##### Memory Usage:
   - Metric: container/memory/usage and pod/memory/usage
   - Monitoring memory usage helps us detect memory leaks or resource exhaustion.
   - High memory usage may lead to application crashes or degraded performance.
   - Similar to the CPU based Scaling, we can instrument our HPA to scale the deployment based on memory.
+  - [Sample Container Memory Metrics](https://github.com/neerajasridhar1992/helloworldflask/blob/main/container-memory-usage.png)
 
 ##### Pod Status:
   - I am talking about the pod status while the deployment gets created, and even in general. Kubectl get po gives info about the pod. kubectl descrive pod gives comprehensive info as well. Similar options on Google Cloud monitoring exist as well.
@@ -84,6 +86,7 @@
 
 ##### System Metrics:
   - Tracking the number of connections and connection errors helps in managing database connection pools and ensuring stable connectivity.
+  - [Sample DB System Metrics](https://github.com/neerajasridhar1992/helloworldflask/blob/main/database-metrics-system.png)
 
 #### Other Services to Implement
 ##### 1. Distributed Tracing:
