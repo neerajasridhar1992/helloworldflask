@@ -20,6 +20,8 @@ Table Of Contents
 
    [Challenges](README.md#challenges--solutions)
 
+   [Monitoring](README.md#monitoring)
+
    
 
 # **Deploying a Flask Web Application on GKE with Cloud SQL and Terraform.**
