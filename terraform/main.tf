@@ -20,6 +20,11 @@ resource "google_sql_database_instance" "default" {
 
   settings {
     tier = "db-f1-micro"
+    ip_configuration {
+      ipv4_enabled        = false  # Disable public IP
+
+      private_network = "projects/my-test-project-432103/global/networks/default"  
+    }
   }
 }
 
