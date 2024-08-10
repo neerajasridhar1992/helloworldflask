@@ -35,6 +35,7 @@
 ##### Request Rate:
   - Monitoring the number of requests per second helps in understanding the application's load and identifying traffic patterns.
   - This paired with the Error Rates can help us determine SLOs and agree on SLAs when applicable.
+  - This can also be used as a means to scale using HPA.
 
 #### Metrics endpoint view:
 [Metrics server look](https://github.com/neerajasridhar1992/helloworldflask/blob/main/metrics-endpoint.png)
@@ -42,20 +43,19 @@
 #### **Infrastructure Metrics:**
   These metrics can further be utilized to automatically scale the deployment when under heavy load.
 ##### CPU Usage:
-  - Metric: container/cpu/usage_time
+  - Metric: container/cpu/usage_time and pod/cpu/usage_time
   - High CPU usage usually indicates that the application is under heavy load.
   - By monitoring this metric, we can ensure that your application has enough CPU resources to handle requests efficiently.
   - Also, a HPA can be put in place to scale the deployment based on CPU load.
 
 ##### Memory Usage:
-  - Metric: container/memory/usage
+  - Metric: container/memory/usage and pod/memory/usage
   - Monitoring memory usage helps us detect memory leaks or resource exhaustion.
   - High memory usage may lead to application crashes or degraded performance.
   - Similar to the CPU based Scaling, we can instrument our HPA to scale the deployment based on memory.
 
 ##### Pod Status:
-  - Metric: kubernetes/pod/condition
-  - This helps us to keep track of pod conditions such as Ready, Scheduled, and Restarted helps ensure that all pods are running as expected and can handle incoming requests.
+  - I am talking about the pod status while the deployment gets created, and even in general. Kubectl get po gives info about the pod. kubectl descrive pod gives comprehensive info as well. Similar options on Google Cloud monitoring exist as well.
 
 ##### Network Traffic:
   - Metric: container/network/received_bytes_count and container/network/sent_bytes_count
