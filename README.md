@@ -137,13 +137,14 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
 
 ## **Monitoring**
 
-### **Chosen Monitoring Solution:** Google Cloud Monitoring and Logging
+### **Chosen Monitoring Solution:** Google Cloud Monitoring and Logging[System Metrics] & Prometheus[Application Metrics]
 
 **Reason for Choosing Google Cloud Monitoring and Logging:**
 1. Google Cloud Monitoring and Logging are natively integrated with Google Kubernetes Engine (GKE) and Cloud SQL. This integration simplifies the setup and management of monitoring and logging without requiring additional configuration or third-party tools.
 2. Google Cloud Monitoring provides comprehensive metrics for GKE, such as CPU and memory usage, pod status, and network traffic. Cloud Logging captures detailed logs from your application and infrastructure, allowing for in-depth troubleshooting and analysis.
 3. Google Cloud's monitoring and logging services are scalable and reliable, handling large volumes of data and providing high availability. This ensures that you can monitor your applications effectively as they grow.
 4. The ability to set up custom dashboards and alerts in Google Cloud Monitoring helps in proactively managing the health and performance of your application. Alerts can notify you of issues before they impact users.
+
 
 ### **Metrics to Monitor**
 #### **1. Application Metrics:**
