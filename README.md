@@ -67,7 +67,7 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 
      iv. Google Service Account Credentials: An environment variable was set up for the Google credentials linked to the service account created via Terraform. These credentials are needed to connect to the Cloud SQL Proxy. The credentials were generated using the following gcloud CLI command:  
           
-        gcloud iam service-accounts keys create credentials.json \--iam-account=sql-access@YOUR\_PROJECT\_ID.iam.gserviceaccount.com
+        gcloud iam service-accounts keys create credentials.json \--iam-account=sql-access@<project_name>\_ID.iam.gserviceaccount.com
 
 5. **Service Configuration:**  
    * A LoadBalancer service was configured to expose the application, mapping port 80 to the application's container port 5000\.  
@@ -76,18 +76,18 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 ## **Deployment Process**
 The deployment of the Flask web application involves several key steps to ensure it is properly built, containerized, and deployed to GKE:
 1. **Building the Docker Image:** After making necessary changes to the `main.py` application, the Docker image is built using the following command. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
-       `docker build --platform linux/amd64 -t gcr.io/<YOUR-PROJECT_NAME>/hello-server .`
+       `docker build --platform linux/amd64 -t gcr.io/<project-name>/hello-server .`
    
 2. **Pushing the Docker Image to Google Container Registry (GCR):** The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
 
-   `docker push gcr.io/<YOUR-PROJECT_NAME>/hello-server`
+   `docker push gcr.io/<project-name>/hello-server`
 
 3. **Applying Kubernetes Configurations:** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster. Before proceeding, please edit your deployment.yaml with your PROJECT_NAME, REGION_NAME and DATABASE_NAME.
 
    `kubectl apply -f ConfigMap.yaml`  
    `kubectl apply -f Secrets.yaml`  
    `kubectl apply -f deployment.yaml`
-4. **Checking for the app:** The apply should have created your deployment which should have as many pods as defined by the replicas, and each pod should have two containers. The pods were up within 10 mins(less than a min, if just one replica, about 5-6 mins if replicas=2/3). Once the deployment is ready, you can check your GKE workloads for this deployment, drop down to where the UI mentions the Exposing service endpoint, <END-POINT>, lets say. Open a browser tab and <END-POINT/greeting/1, should print Hello-World
+4. **Checking for the app:** The apply should have created your deployment which should have as many pods as defined by the replicas, and each pod should have two containers. The pods were up within 10 mins(less than a min, if just one replica, about 5-6 mins if replicas=2/3). Once the deployment is ready, you can check your GKE workloads for this deployment, drop down to where the UI mentions the Exposing service endpoint, <end-point>, lets say. Open a browser tab and <end-point>/greeting/1, should print Hello-World
 ## **Challenges & Solutions:**
 
  i. ***Database Connection Issues:*** Initially, I used the pymysql driver, which is intended for MySQL, while the database was PostgreSQL. This caused connection issues. After realizing the mistake, I switched to a PostgreSQL-compatible driver, ensuring the application could connect to the database successfully.  
