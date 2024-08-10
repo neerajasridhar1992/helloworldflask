@@ -87,7 +87,8 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
      * Update the variables.tf file with your project name and region name
      * Update the google_sql_user in the main.tf file, provide your custom username and password for the user.
      * base64 the username and password provided in step ii, and mention the corresponding base64 encoded username and password in the Secret.yaml file.
-   * Please update the variables.tf with your project name before proceeding.
+       `base64 -i <username>`
+       `base64 -i <password>`
    *  The infrastructure can now be defined using Terraform and deployed with `terraform apply`. It takes about 10 mins on average to complete creation of a gke cluster and a cloudsql instance. Once the apply finishes, it will output the cloudsql instance name, please update the <cloudsql_instance_connection_name> in deployment.yaml at line 27 and 68.
    *  Please use this command to generate the credentials.json, that is used in the GoogleCredsSecret.yaml:
      `gcloud iam service-accounts keys create credentials.json \--iam-account=sql-access@<project_name>\_ID.iam.gserviceaccount.com`
