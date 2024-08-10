@@ -117,7 +117,7 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
    ```
    kubectl apply -f ConfigMap.yaml
    kubectl apply -f GoogleCredsSecret.yaml
-   kubectl apply -f Secrets.yaml 
+   kubectl apply -f Secret.yaml 
    kubectl apply -f deployment.yaml
    ```
 8. **Checking for the app:** The apply should have created your deployment which should have as many pods as defined by the replicas, and each pod should have two containers. The pods were up within 10 mins(less than a min, if just one replica, about 5-6 mins if replicas=2/3). Once the deployment is ready, you can check your GKE workloads for this deployment, drop down to where the UI mentions the Exposing service endpoint, <end-point>, lets say. Open a browser tab and <end-point>/greeting/1, should print Hello-World
