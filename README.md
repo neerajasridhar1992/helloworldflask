@@ -167,6 +167,7 @@ Metrics endpoint view:
 ![Uploading Screenshot 2024-08-10 at 1.15.43 AM.png…]()
 
 #### **2. Infrastructure Metrics:**
+These metrics can further be utilized to automatically scale the deployment when under heavy load.
 ##### CPU Usage:
 Metric: container/cpu/usage_time
 Reason: High CPU usage can indicate that the application is under heavy load. By monitoring this metric, you can ensure that your application has enough CPU resources to handle requests efficiently.
@@ -186,6 +187,10 @@ Reason: Monitoring the volume of network traffic helps in identifying potential 
 ##### Disk I/O:
 Metric: container/disk/io_time
 Reason: High disk I/O can indicate that the application is reading or writing large amounts of data, which might slow down other operations. Monitoring this metric helps in optimizing storage performance.
+
+##### Auto-Scaling Based on Metrics
+To automatically scale your deployment when metrics exceed certain thresholds,  Horizontal Pod Autoscaling (HPA) can be setup. If CPU usage or memory usage exceeds some threshold (80% or so), the HPA can be setup to scale the pods. 
+
 
 #### **3. Cloud SQL Metrics:**
 
