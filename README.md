@@ -44,8 +44,9 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 
 1. **Defining the Infrastructure:**
    * Before proceeding with applying the Infrastructure changes, please make the following changes for the code to work as intended:
-     * Enable all the APIS mentioned above
+     * Change your config to point to your project where you will set up all the Infrastructure and Enable all the APIS mentioned as mentioned below, 
        ```
+       gcloud config set project <project-name>
        gcloud services enable artifactregistry.googleapis.com
        gcloud services enable compute.googleapis.com
        gcloud services enable sqladmin.googleapis.com
