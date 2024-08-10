@@ -92,14 +92,14 @@
 ##### 1. Distributed Tracing:
   - Implementing distributed tracing (e.g., using OpenTelemetry or Google Cloud Trace) allows for end-to-end visibility into request flows, helping identify latency issues and performance bottlenecks across services.
 
-##### 2. Error Reporting:
-  - Using a tool like Google Cloud Error Reporting can help aggregate and analyze application errors, providing insights into error trends and helping prioritize bug fixes.
+##### 2. APM/Synthetic Monitoring:
+  - It is useful to setup AP metrics using NewRelic/Datadog or atleast setup Synthetic monitoring using Runscope, or by utilizing the Istio mesh for more insights into network communications. As the applications scale and more microservices are added, it might make sense to setup sa service mesh like Istio to enable monitoring and security.
 
-##### 3. Application Performance Management (APM):
-  - Implementing APM solutions (e.g., New Relic, Datadog) provides deeper insights into application performance, including transaction traces, code-level insights, and more.
-
-##### 4. Service-Level Objectives (SLOs) and Service-Level Indicators (SLIs):
+##### 3. Service-Level Objectives (SLOs) and Service-Level Indicators (SLIs):
   - Defining SLOs and SLIs for our application helps in setting clear performance targets and measuring the application's reliability against those targets.
 
-##### 5. Custom Dashboards and Reporting:
-   - Creating custom dashboards tailored to our application's specific needs provides a comprehensive view of metrics and performance, allowing for more effective monitoring and management.
+##### 4. Custom Dashboards/Reporting:
+   - Creating custom dashboards tailored to our application's specific needs provides a comprehensive view of metrics and performance, allowing for more effective monitoring and management. We can also define monitors which could trigger alerts through a Alerting tool like Pagerduty when needed. These Dashboards and monitoring should be implemented via IaC for easy maintenance.
+     
+##### 5. Incident Management:
+  - We could further setup alerting tools like Pagerduty and incident management tools like FireHydrant to manage incident lifecycles. Incident Life cycle management can be a pain, and ensuring we handle all events from grouping alerts in an incident, to managing incident response to post mortem analysis to root cause analysis is important.
