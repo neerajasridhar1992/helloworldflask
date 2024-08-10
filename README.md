@@ -11,7 +11,6 @@
 Table Of Contents
 
    [Infrastructure Overview](README.md#infrastructure-overview)
-
    [Why I chose these?](README.md#explanation-of-choices)
 
 # **Deploying a Flask Web Application on GKE with Cloud SQL and Terraform.**
