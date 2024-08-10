@@ -1,7 +1,35 @@
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from prometheus_client import start_http_server, Summary, Counter, generate_latest
 import psycopg2
+import time
+
+
 app = Flask(__name__)
+
+# Create Prometheus metrics
+REQUEST_LATENCY = Summary('flask_request_latency_seconds', 'Request latency')
+REQUEST_COUNT = Counter('flask_requests_total', 'Total number of requests')
+ERROR_COUNT = Counter('flask_requests_errors_total', 'Total number of errors')
+
+@app.before_request
+def before_request():
+    request.start_time = time.time()
+
+@app.after_request
+def after_request(response):
+    latency = time.time() - request.start_time
+    REQUEST_LATENCY.observe(latency)
+    REQUEST_COUNT.inc()
+    if response.status_code >= 500:
+        ERROR_COUNT.inc()
+    return response
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest(), 200, {'Content-Type': 'text/plain'}
+
+#Save the env vars
 db_user = os.environ.get('DATABASE_USERNAME')
 db_password = os.environ.get('DATABASE_PASSWORD')
 db_name = os.environ.get('DB_NAME')
