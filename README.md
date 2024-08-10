@@ -12,7 +12,8 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 * **Google Service Account Key:** Created to enable secure communication between the application and the Cloud SQL database via the Cloud SQL Proxy.  
 * **Google Project IAM Binding:** Configured to assign necessary roles and permissions to the service account, ensuring it has access to the required Google Cloud resources.  
 * **Google Cloud APIs:** Several APIs were enabled to ensure smooth operation and integration between the various services:  
-  * Artifact Registry API (`artifactregistry.googleapis.com`)  
+  * Artifact Registry API (`artifactregistry.googleapis.com`)
+  * Container Registry API (`containerregistry.googleapis.com`)
   * Compute Engine API (`compute.googleapis.com`)  
   * Cloud SQL Admin API (`sqladmin.googleapis.com`)  
   * SQL Component API (`sql-component.googleapis.com`)  
@@ -77,6 +78,7 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
        ```
        gcloud config set project <project-name>
        gcloud services enable artifactregistry.googleapis.com
+       gcloud services enable containerregistry.googleapis.com
        gcloud services enable compute.googleapis.com
        gcloud services enable sqladmin.googleapis.com
        gcloud services enable sql-component.googleapis.com
