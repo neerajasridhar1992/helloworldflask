@@ -85,12 +85,15 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
        gcloud services enable servicenetworking.googleapis.com
        gcloud services enable iam.googleapis.com
        ```
-     * Update the variables.tf file with your project name and region name
+     * Update the variables.tf file with your project name and region name.
+     * Update line 17 in k8s/deployment.yaml with your project name.
      * Update the google_sql_user in the main.tf file, provide your custom username and password for the user.
      * base64 the username and password provided in step ii, and mention the corresponding base64 encoded username and password in the Secret.yaml file.
        `base64 -i <username>`
        `base64 -i <password>`
-     *  The infrastructure can now be defined using Terraform and deployed with `terraform apply`. It takes about 10 mins on average to complete creation of a gke cluster and a cloudsql instance. Once the apply finishes, it will output the cloudsql instance name, please update the <cloudsql_instance_connection_name> in deployment.yaml at line 27 and 68.
+     *  The infrastructure can now be defined using Terraform and deployed with `terraform apply`. It takes about 10 mins on average to complete creation of a gke cluster and a cloudsql instance.
+     *  Once the apply finishes, it will output the cloudsql instance name, please update the <cloudsql_instance_connection_name> in k8s/deployment.yaml at line 27 and 68.
+     *  
 
 
 2. **Building the Docker Image:**
