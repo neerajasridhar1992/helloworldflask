@@ -162,6 +162,8 @@ Reason: Monitoring the latency of incoming requests helps ensure that the applic
 Reason: Tracking error rates (e.g., HTTP 5xx errors) helps identify issues with the application that may be causing failures. This metric is crucial for maintaining application reliability.
 ##### Request Rate:
 Reason: Monitoring the number of requests per second can help in understanding the application's load and identifying traffic patterns. It also aids in scaling decisions.
+Metrics endpoint view:
+![Uploading Screenshot 2024-08-10 at 1.15.43 AM.png…]()
 
 #### **2. Infrastructure Metrics:**
 
