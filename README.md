@@ -65,7 +65,7 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
 
      iv. Google Service Account Credentials: An environment variable was set up for the Google credentials linked to the service account created via Terraform. These credentials are needed to connect to the Cloud SQL Proxy. The credentials were generated using the following gcloud CLI command:  
           
-        gcloud iam service-accounts keys create credentials.json \--iam-account=sql-access@<project_name>\_ID.iam.gserviceaccount.com
+        `gcloud iam service-accounts keys create credentials.json \--iam-account=sql-access@<project_name>\_ID.iam.gserviceaccount.com`
 
 6. **Service Configuration:**  
    * A LoadBalancer service was configured to expose the application, mapping port 80 to the application's container port 5000\.  
@@ -102,11 +102,11 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
 
 2. **Building the Docker Image:**
    * cd to the app directory
-   *  Update the <project-name> in this command before proceeding. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
+   *  Update the `<project-name>` in this command before proceeding. This command builds the Docker image for the Flask application, specifying the platform and tagging it with the appropriate GCR repository.
        `docker build --platform linux/amd64 -t gcr.io/<project-name>/hello-server .`
    
 4. **Pushing the Docker Image to Google Container Registry (GCR):**
-   * Update the <project-name> in this command before proceeding. The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
+   * Update the `<project-name>` in this command before proceeding. The built Docker image is then pushed to Google Container Registry to make it available for the Kubernetes deployment:
 
    `docker push gcr.io/<project-name>/hello-server`
 
@@ -127,7 +127,7 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
    kubectl apply -f Secret.yaml 
    kubectl apply -f deployment.yaml
    ```
-8. **Checking for the app:** The apply should have created your deployment which should have as many pods as defined by the replicas, and each pod should have two containers. The pods were up within 10 mins(less than a min, if just one replica, about 5-6 mins if replicas=2/3). Once the deployment is ready, you can check your GKE workloads for this deployment, drop down to where the UI mentions the Exposing service endpoint, <end-point>, lets say. Open a browser tab and enter <end-point>/greeting/1, should print Hello-World
+8. **Checking for the app:** The apply should have created your deployment which should have as many pods as defined by the replicas, and each pod should have two containers. The pods were up within 10 mins(less than a min, if just one replica, about 5-6 mins if replicas=2/3). Once the deployment is ready, you can check your GKE workloads for this deployment, drop down to where the UI mentions the Exposing service endpoint, `<end-point>`, lets say. Open a browser tab and enter `<end-point>/greeting/1`, should print Hello-World
 
 ## **Challenges & Solutions:**
 
