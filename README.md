@@ -19,7 +19,8 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
   * SQL Component API (`sql-component.googleapis.com`)  
   * Kubernetes Engine API (`container.googleapis.com`)  
   * Cloud Build API (`cloudbuild.googleapis.com`)  
-  * Service Networking API (`servicenetworking.googleapis.com`)  
+  * Service Networking API (`servicenetworking.googleapis.com`)
+  * Network Connectivity API (`networkconnectivity.googleapis.com`)
   * IAM API (`iam.googleapis.com`)
 
 ### **Explanation of Choices**
@@ -85,6 +86,7 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
        gcloud services enable container.googleapis.com
        gcloud services enable cloudbuild.googleapis.com
        gcloud services enable servicenetworking.googleapis.com
+       gcloud services enable networkconnectivity.googleapis.com
        gcloud services enable iam.googleapis.com
        ```
      * Update the variables.tf file with your project name and region name.
