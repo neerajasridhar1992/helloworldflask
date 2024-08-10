@@ -104,6 +104,8 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
 
  ii. ***Service Account Key Creation:*** While I intended to create the service account keys directly through Terraform, I encountered a JSON marshaling error. To proceed with the project, I temporarily used the gcloud CLI to generate the keys manually. In a production setting, I would resolve this issue to automate the key creation process fully.
 
+## Monitoring
+* Discussed about monitoring here: [Monitoring](https://github.com/neerajasridhar1992/helloworldflask/blob/main/Monitoring.md)
 
 ### **Future Improvements**
 
