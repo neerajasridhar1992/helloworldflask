@@ -128,13 +128,14 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
    kubectl apply -f deployment.yaml
    ```
 8. **Checking for the app:** The apply should have created your deployment which should have as many pods as defined by the replicas, and each pod should have two containers. The pods were up within 10 mins(less than a min, if just one replica, about 5-6 mins if replicas=2/3). Once the deployment is ready, you can check your GKE workloads for this deployment, drop down to where the UI mentions the Exposing service endpoint, <end-point>, lets say. Open a browser tab and <end-point>/greeting/1, should print Hello-World
+
 ## **Challenges & Solutions:**
 
  i. ***Database Connection Issues:*** Initially, I used the pymysql driver, which is intended for MySQL, while the database was PostgreSQL. This caused connection issues. After realizing the mistake, I switched to a PostgreSQL-compatible driver, ensuring the application could connect to the database successfully.  
 
  ii. ***Service Account Key Creation:*** While I intended to create the service account keys directly through Terraform, I encountered a JSON marshaling error. To proceed with the project, I temporarily used the gcloud CLI to generate the keys manually. In a production setting, I would resolve this issue to automate the key creation process fully.
 
-### **Monitoring**
+## **Monitoring**
 
 To ensure the application runs smoothly and to detect potential issues early, monitoring is a critical aspect of this setup.  
 To monitor the application and ensure its reliability, the following approach would be taken:
