@@ -105,6 +105,8 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
 
 6. **Applying Kubernetes Configurations:** The Kubernetes configurations, including ConfigMap, Secrets, and Deployment YAML files, are applied using the following commands. These commands deploy the ConfigMap and Secrets to manage configuration data and sensitive information, respectively, and then apply the Deployment configuration to launch the application in the GKE cluster.
    * cd to the k8s directory
+   * Set the gcloud context to your project:
+     `gcloud config set project <project-name>`
    * Gather the email address of the sql-access service account. The following command should gather that for you
      `gcloud iam service-accounts list --project=<projectname> | grep sql-accesss`
    * Please use this command to generate the credentials.json, that is used in the GoogleCredsSecret.yaml:
