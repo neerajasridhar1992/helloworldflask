@@ -111,7 +111,7 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
      `gcloud iam service-accounts list --project=<projectname> | grep sql-accesss`
    * Please use this command to generate the credentials.json, that is used in the GoogleCredsSecret.yaml:
      `gcloud iam service-accounts keys create credentials.json \--iam-account=<emailofserviceaccount>`
-   * The previous command would have created a credentials.json file for you. Replace the empty { } in line 8 and 9 with the contents of credentials.json.
+   * The previous command would have created a credentials.json file for you. Replace the empty { } in line 8 and 9 with the contents of credentials.json. Please pay attention to possible indentation errors here, json versus yaml indentation requirements should be taken into consideration.
    * Go ahead and run the following commands in that order to create all the neccesary k8s objects.
 
    ```
