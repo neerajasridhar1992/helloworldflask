@@ -1,18 +1,19 @@
 ## **Monitoring**
 
 **Chosen Monitoring Solution:** 
-Google Cloud Monitoring and Logging(System Metrics) & Prometheus Client(Application Metrics)
+  I would use Google Cloud Monitoring and Logging for monitoring System Metrics & Prometheus Client for Application Metrics.
 
 **Reason for Choosing Google Cloud Monitoring and Logging:**
-1. Google Cloud Monitoring and Logging are natively integrated with Google Kubernetes Engine (GKE) and Cloud SQL. This integration simplifies the setup and management of monitoring and logging without requiring additional configuration or third-party tools.
-2. Google Cloud Monitoring provides comprehensive metrics for GKE, such as CPU and memory usage, pod status, and network traffic. Cloud Logging captures detailed logs from our application and infrastructure, allowing for in-depth troubleshooting and analysis.
-3. Google Cloud's monitoring and logging services are scalable and reliable, handling large volumes of data and providing high availability. This ensures that you can monitor our applications effectively as they grow.
-4. The ability to set up custom dashboards and alerts in Google Cloud Monitoring helps in proactively managing the health and performance of our application. Alerts can notify us of issues before they impact users.
+- Google Cloud Monitoring and Logging is natively integrated with both GKE and Cloud SQL, simplifying the setup/management without additional tooling.
+- Google Cloud Monitoring already gives comprehensive metrics for GKE, such as CPU and memory usage, pod status, and network traffic. Cloud Logging further detailed logs from our application and infrastructure. These were useful even while I was trying to get the deployment functional.
+- Google Cloud's monitoring and logging services has proven to be scalable and reliable, ensuring effective monitoring as applications grow.
+- I could define a HPA to automatically scale the deployment based on load(CPU/Memory)
+
 
 **Reason for Choosing Prometheus Client:**
-1. Prometheus is an open-source monitoring solution that is widely adopted in the industry. It has a large community, extensive documentation, and is compatible with many monitoring and visualization tools like Grafana.
-2. Prometheus is designed for real-time monitoring, providing immediate insights into our application's performance. The Prometheus client library allows us to track key metrics such as request latency, error rates, and throughput with low overhead.
-3. The Prometheus client for Python is straightforward to use and integrates well with Flask, enabling us to expose metrics with minimal changes to our codebase. We can start monitoring our application quickly without complex setup.
+ - Prometheus is an open-source monitoring solution that is widely adopted in the industry. It has a large community, extensive documentation, and is compatible with many monitoring and visualization tools like Grafana.
+ - Prometheus is designed for real-time monitoring, providing immediate insights into our application's performance. The Prometheus client library allows us to track key metrics such as request latency, error rates, and throughput with low overhead.
+ - The Prometheus client for Python is easy to use and integrates well with Flask, enabling us to expose metrics with minimal changes to our codebase. It is very easy to set this client up
 
 
 
