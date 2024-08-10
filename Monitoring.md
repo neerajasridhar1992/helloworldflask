@@ -18,67 +18,78 @@
  - The Prometheus client for Python is easy to use and integrates well with Flask, enabling us to expose metrics with minimal changes to our codebase. It is very easy to set this client up
 
 ## **Metrics to Monitor**
-The focus here is to monitor for four golden signals -  Latency, Traffic, Errors and Saturation. The first three can be achieved using Prometheus, from the application perspective, while the later three can be achieved from the systems perspective through Google Cloud Monitoring.
+   - The focus here is to monitor for four golden signals -  Latency, Traffic, Errors and Saturation.
+   - The first three can be achieved using Prometheus, from the application perspective, while the later three can be achieved from the systems perspective through Google Cloud Monitoring.
+     
 ### **Application Metrics:**
 
 #### Request Latency:
-The time taken to process a request is important and should be monitored. This directly affects customer experience. High latency can indicate performance issues or bottlenecks. Also it is important to be able to track latency for successful requests versus failed requests, since it is better to fail early. 
+  - The time taken to process a request is important and should be monitored.
+  - This directly affects customer experience. High latency can indicate performance issues or bottlenecks.
+  - Also it is important to be able to track latency for successful requests versus failed requests, since it is better to fail early. 
 
 ##### Error Rates:
-Tracking error rates (e.g., HTTP 5xx errors) helps identify issues with the application that may be causing failures. This metric is extremely important for ensuring application reliability.
+  - Tracking error rates (e.g., HTTP 5xx errors) helps identify issues with the application that may be causing failures.
+  - This metric is extremely important for ensuring application reliability.
 
 ##### Request Rate:
-Monitoring the number of requests per second helps in understanding the application's load and identifying traffic patterns. This paired with the Error Rates can help us determine SLOs and agree on SLAs when applicable.
+  - Monitoring the number of requests per second helps in understanding the application's load and identifying traffic patterns.
+  - This paired with the Error Rates can help us determine SLOs and agree on SLAs when applicable.
 
 #### Metrics endpoint view:
 [Metrics server look](https://github.com/neerajasridhar1992/helloworldflask/blob/main/metrics-endpoint.png)
 
 #### **Infrastructure Metrics:**
-These metrics can further be utilized to automatically scale the deployment when under heavy load.
+  These metrics can further be utilized to automatically scale the deployment when under heavy load.
 ##### CPU Usage:
-Metric: container/cpu/usage_time
-High CPU usage usually indicates that the application is under heavy load. By monitoring this metric, we can ensure that your application has enough CPU resources to handle requests efficiently. Also, a HPA can be put in place to scale the deployment based on CPU load.
+  - Metric: container/cpu/usage_time
+  - High CPU usage usually indicates that the application is under heavy load.
+  - By monitoring this metric, we can ensure that your application has enough CPU resources to handle requests efficiently.
+  - Also, a HPA can be put in place to scale the deployment based on CPU load.
 
 ##### Memory Usage:
-Metric: container/memory/usage
-Monitoring memory usage helps us detect memory leaks or resource exhaustion. High memory usage may lead to application crashes or degraded performance. Similar to the CPU based Scaling, we can instrument our HPA to scale the deployment based on memory.
+  - Metric: container/memory/usage
+  - Monitoring memory usage helps us detect memory leaks or resource exhaustion.
+  - High memory usage may lead to application crashes or degraded performance.
+  - Similar to the CPU based Scaling, we can instrument our HPA to scale the deployment based on memory.
 
 ##### Pod Status:
-Metric: kubernetes/pod/condition
-This helps us to keep track of pod conditions such as Ready, Scheduled, and Restarted helps ensure that all pods are running as expected and can handle incoming requests.
+  - Metric: kubernetes/pod/condition
+  - This helps us to keep track of pod conditions such as Ready, Scheduled, and Restarted helps ensure that all pods are running as expected and can handle incoming requests.
 
 ##### Network Traffic:
-Metric: container/network/received_bytes_count and container/network/sent_bytes_count
-Monitoring the volume of network traffic helps in identifying potential network bottlenecks, which can impact the application's performance.
+  - Metric: container/network/received_bytes_count and container/network/sent_bytes_count
+  - Monitoring the volume of network traffic helps in identifying potential network bottlenecks, which can impact the application's performance.
 
 ##### Disk I/O:
-Metric: container/disk/io_time
-High disk I/O can indicate that the application is reading or writing large amounts of data, which might slow down other operations. Monitoring this metric helps in optimizing storage performance.
+  - Metric: container/disk/io_time
+  - High disk I/O can indicate that the application is reading or writing large amounts of data, which might slow down other operations.
+  - Monitoring this metric helps in optimizing storage performance.
 
 ##### Auto-Scaling Based on Metrics
-To automatically scale your deployment when metrics exceed certain thresholds,  Horizontal Pod Autoscaling (HPA) can be setup. If CPU usage or memory usage exceeds some threshold (80% or so), the HPA can be setup to scale the pods. 
+  To automatically scale your deployment when metrics exceed certain thresholds,  Horizontal Pod Autoscaling (HPA) can be setup. If CPU usage or memory usage exceeds some threshold (80% or so), the HPA can be setup to scale the pods. 
 
 
 #### **3. Cloud SQL Metrics:**
 
 ##### Query Performance:
-Monitoring query performance metrics (e.g., query execution time) helps in identifying slow queries and optimizing database performance.
+  - Monitoring query performance metrics (e.g., query execution time) helps in identifying slow queries and optimizing database performance.
 
 ##### Connection Metrics:
-Tracking the number of connections and connection errors helps in managing database connection pools and ensuring stable connectivity.
+  - Tracking the number of connections and connection errors helps in managing database connection pools and ensuring stable connectivity.
 
 #### Other Services to Implement
 ##### 1. Distributed Tracing:
-Implementing distributed tracing (e.g., using OpenTelemetry or Google Cloud Trace) allows for end-to-end visibility into request flows, helping identify latency issues and performance bottlenecks across services.
+  - Implementing distributed tracing (e.g., using OpenTelemetry or Google Cloud Trace) allows for end-to-end visibility into request flows, helping identify latency issues and performance bottlenecks across services.
 
 ##### 2. Error Reporting:
-Using a tool like Google Cloud Error Reporting can help aggregate and analyze application errors, providing insights into error trends and helping prioritize bug fixes.
+  - Using a tool like Google Cloud Error Reporting can help aggregate and analyze application errors, providing insights into error trends and helping prioritize bug fixes.
 
 ##### 3. Application Performance Management (APM):
-Implementing APM solutions (e.g., New Relic, Datadog) provides deeper insights into application performance, including transaction traces, code-level insights, and more.
+  - Implementing APM solutions (e.g., New Relic, Datadog) provides deeper insights into application performance, including transaction traces, code-level insights, and more.
 
 ##### 4. Service-Level Objectives (SLOs) and Service-Level Indicators (SLIs):
-Defining SLOs and SLIs for our application helps in setting clear performance targets and measuring the application's reliability against those targets.
+  - Defining SLOs and SLIs for our application helps in setting clear performance targets and measuring the application's reliability against those targets.
 
 ##### 5. Custom Dashboards and Reporting:
-Creating custom dashboards tailored to our application's specific needs provides a comprehensive view of metrics and performance, allowing for more effective monitoring and management.
+   - Creating custom dashboards tailored to our application's specific needs provides a comprehensive view of metrics and performance, allowing for more effective monitoring and management.
