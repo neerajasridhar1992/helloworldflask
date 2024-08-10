@@ -113,5 +113,6 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
   - Use a Secrets Manager:** To securely manage sensitive information like database credentials, I would integrate a secrets manager such as HashiCorp Vault or Google Secret Manager. This would ensure that secrets are encrypted and managed according to best practices.
   - Implement Prometheus Server and Grafana:** To be able to visualize the Application metrics.
   - Implement Scaling through HPA
+  - As the application scales, and needs to cater to growth and features, it makes sense to utilize helm to define the templates required for the k8s administration. A Build tool such as Buildkite could be used to run builds, tests, and update the application. In short, we could use a combination of make and Dockerfile to build the application everytime a change is pushed to the repo, and this change is in the form of a PR, we could integrate the Build tool using webhooks, and write the relevant templates that build, test and upgrade the helm charts of the application's k8s workloads. Furutistically, if we would want to further automate changes in a secure way, we could adopt GitOps and enable CI/CD using tools such as Harness and ArgoCD. 
 
 
