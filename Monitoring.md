@@ -19,7 +19,7 @@
 
 ## **Metrics to Monitor**
 The focus here is to monitor for four golden signals -  Latency, Traffic, Errors and Saturation. The first three can be achieved using Prometheus, from the application perspective, while the later three can be achieved from the systems perspective through Google Cloud Monitoring.
-### ** Application Metrics:**
+### **Application Metrics:**
 
 #### Request Latency:
 The time taken to process a request is important and should be monitored. This directly affects customer experience. High latency can indicate performance issues or bottlenecks. Also it is important to be able to track latency for successful requests versus failed requests, since it is better to fail early. 
@@ -33,7 +33,7 @@ Monitoring the number of requests per second helps in understanding the applicat
 #### Metrics endpoint view:
 [Metrics server look](https://github.com/neerajasridhar1992/helloworldflask/blob/main/metrics-endpoint.png)
 
-#### ** Infrastructure Metrics:**
+#### **Infrastructure Metrics:**
 These metrics can further be utilized to automatically scale the deployment when under heavy load.
 ##### CPU Usage:
 Metric: container/cpu/usage_time
