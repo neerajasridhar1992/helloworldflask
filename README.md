@@ -44,6 +44,7 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 
 1. **Defining the Infrastructure:**
    * Before proceeding with applying the Infrastructure changes, please make the following changes for the code to work as intended:
+     * Enable all the APIS mentioned above
      * Update the variables.tf file with your project name and region name
      * Update the google_sql_user in the main.tf file, provide your custom username and password for the user.
      * base64 the username and password provided in step ii, and mention the corresponding base64 encoded username and password in the Secret.yaml file.
