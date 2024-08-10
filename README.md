@@ -11,7 +11,7 @@
 
 # **Deploying a Flask Web Application on GKE with Cloud SQL and Terraform.**  
 
-This project demonstrates a simple Flask web application deployed on Google Kubernetes Engine (GKE) using a Google Cloud SQL PostgreSQL database. The infrastructure is defined and managed using Terraform, ensuring a reproducible and scalable environment. The goal is to demonstrate the ability to deploy a cloud-native application and manage it using modern DevOps practices.
+This project demonstrates a simple Flask web application deployed on Google Kubernetes Engine (GKE) using a Google Cloud SQL PostgreSQL database. The infrastructure is defined and managed using Terraform, ensuring a reproducible and scalable environment. The components of the app are defined through Docker and K8s to demonstrate effective maintainability,  reusability and scalability.
 
 ## **Table Of Contents:**
 - [Infrastructure Overview](README.md#infrastructure-overview)
@@ -44,51 +44,54 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
 
 ## **Explanation of Choices**
 
-* **Terraform:** Terraform was chosen to define the infrastructure as code due to its declarative syntax, support for versioning, and ability to manage a wide range of cloud resources. This approach ensures consistency and repeatability across environments.
+* **Terraform:**
+  * Utilized Terraform to define the IaC due to its declarative syntax, support for versioning, and ability to manage a wide range of cloud resources. Mainly because I like Terraform on how it ensures idempotency and repeatability. 
 
-* **Docker:** Docker is used to containerize the Flask web application, enabling easy deployment on GKE. Docker ensures that the application runs consistently across different environments by encapsulating all dependencies within the container.
+* **Docker:**
+  * Used Docker to containerize the Flask web application, to enable deploying it to the GKE cluster, easily by encapsulating all the required dependencies. 
 
-* **CloudSQL Proxy:** Google advises using the CloudSQL Proxy to securely connect applications running in GKE to Cloud SQL instances(Necessary reading involved: https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine](https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine*). This proxy handles authentication and maintains a stable connection, reducing the complexity of managing database connections in a cloud environment.
+* **CloudSQL Proxy:**
+  * For my Flask container to be able to securely connect to my CloudSQL instance, I utilized the CloudSQL Proxy, upon following instructions from [here](https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine*). Google advises using the CloudSQL Proxy to securely connect applications running in GKE to Cloud SQL instances.
 
 * **GKE(Autopilot)/Kubernetes:**   
-  * Why GKE? GKE provides a fully managed Kubernetes service, allowing me to focus on deploying and managing applications without worrying about the underlying infrastructure. Kubernetes is the industry-standard platform for container orchestration, offering robust tools for scaling, load balancing, and self-healing of applications.
+  * Used Kubernetes, because it is the industry standard for container orchestration, and I can effectively scale the cluster when needed, and also take care of load balancing and self healing for my application. An Autopilot GKE provides a fully managed Kubernetes service, which means I could focus on deploying and managing applications without worrying about the underlying infrastructure. Especially, I don't have to focus on operational tasks like node provisioning, scaling and such, and focus on application development.
 
-  * Why Autopilot Mode? Autopilot mode simplifies cluster management by automating many operational tasks, such as node provisioning, scaling, and maintenance, which allows for more focus on application development and deployment rather than infrastructure management.
 
-* **Deployment:** The application is containerized and deployed as a Kubernetes deployment, ensuring that it can run reliably across multiple replicas. The deployment also manages rolling updates, scaling, and the self-healing of pods in case of failure.
+* **Deployment:**
+  * The application is deployed as a Kubernetes deployment, so that application scaling, rolling updates and self healing can be automatically managed. 
 
-* **Service:** A Kubernetes LoadBalancer service is used to expose the application to the internet. It automatically balances incoming traffic across all replicas of the application, ensuring high availability.
+* **Service:**
+  * Used a Kubernetes LoadBalancer service to expose the application to the internet. It automatically balances incoming traffic across all replicas of the application, ensuring high availability.
 
 ## **Application Deployment Info**
 
-**The deployment process involves several key steps:**
+ * The deployment process involves several key steps. An overview of the steps has been mentioned here, but I speak in detail about the deployment process in Deploy README.
 
 1. **Defining the Infrastructure:**
-The infrastructure was defined using Terraform and deployed with terraform apply.
-After deployment, various Google Cloud APIs were enabled to ensure proper functionality of the web application and its integration with other services.
+   - Defined using Terraform and deployed with terraform apply.
+   - All the required Google Cloud APIs were enabled to ensure all the GCP services had connectivity and integration across them.
 
 2. **Developing the Web Application:**  
-   * A simple Flask web application was developed to work well locally. The application connects to the Cloud SQL PostgreSQL database to retrieve and display data.  
-   * The right database driver (`pg8000`) was selected to ensure compatibility with PostgreSQL, after initially attempting to use `pymysql` (which is meant for MySQL).  
-4. **Dockerizing the Application:**  
-   * The Flask application was containerized using Docker, with environment variables configured to match the GKE environment. This included database connection details.  
-   * The Docker image was then pushed to Google Container Registry (GCR) for use in the Kubernetes deployment.  
-5. **Defining the Kubernetes Deployment/Secrets/ConfigMaps:**
+   - I firstly developed a simple Flask app that could run locally, and connect to the  Cloud SQL PostgreSQL database to retrieve and display data.
+   - The right database driver (`psycopg2`) was selected to ensure compatibility with PostgreSQL, after initially attempting to use `pymysql` (which is meant for MySQL).
+   - Once the local app worked fine, I edited the env variables used by the app to point to the env variables set by my k8s deployment.
 
-   * The Kubernetes deployment was configured to use two containers:  
-     i. Hello-Server Container: Runs the Flask application, using environment variables (such as database credentials) provided via Kubernetes secrets and ConfigMaps.  
+3. **Dockerizing the Application:**  
+   - Built a Docker image out of the developed  Flask application.
+   - The Docker image was then pushed to Google Container Registry (GCR) for use in the Kubernetes deployment.  
+4. **Defining the Kubernetes Deployment/Secrets/ConfigMaps:**
 
-     ii. Cloud SQL Proxy Container: A sidecar container that securely connects the application to the Cloud SQL instance using the service account credentials.  
-
-     iii. Secret.yaml: Database credentials were loaded using Kubernetes Secrets. While Kubernetes Secrets provides base64 encoding for the data, this method is not secure enough for sensitive information. For better security, it is advisable to use a dedicated secrets management solution like HashiCorp Vault or Google Cloud Secret Manager, which offers encryption and more secure handling of sensitive data.  
-
-     iv. Google Service Account Credentials: An environment variable was set up for the Google credentials linked to the service account created via Terraform. These credentials are needed to connect to the Cloud SQL Proxy. The credentials were generated using the following gcloud CLI command:  
+   - The Kubernetes deployment was configured to use two containers:
+      - Hello-Server Container: Runs the Flask application, using environment variables (such as database credentials) provided via Kubernetes secrets and ConfigMaps(Defined outside the deployment).
+      - Cloud SQL Proxy Container: A sidecar container that securely connects the application to the Cloud SQL instance using the service account credentials.
+      - Secret.yaml: Database credentials were loaded using Kubernetes Secrets. While Kubernetes Secrets provides base64 encoding for the data, this method is not secure enough for sensitive information. For better security, it is advisable to use a dedicated secrets management solution like HashiCorp Vault or Google Cloud Secret Manager, which offers encryption and more secure handling of sensitive data.
+      - Google Service Account Credentials: An environment variable was set up for the Google credentials linked to the service account created via Terraform. These credentials are needed to connect to the Cloud SQL Proxy. The credentials were generated using the following gcloud CLI command:  
           
         `gcloud iam service-accounts keys create credentials.json \--iam-account=sql-access@<project_name>\_ID.iam.gserviceaccount.com`
 
-6. **Service Configuration:**  
-   * A LoadBalancer service was configured to expose the application, mapping port 80 to the application's container port 5000\.  
-   * The service allows external access to the Flask application while balancing traffic across the three replicas. 
+5. **Service Configuration:**  
+   - Configured a LoadBalancer service to expose the application, mapping port 80 to the application's container port 5000.  
+   - The service allows external access to the Flask application while balancing traffic across the three replicas. 
  
 ## **How to get this app running?**
 * Explained here: [Deploy Process](https://github.com/neerajasridhar1992/helloworldflask/blob/main/Deploy.md)
@@ -99,7 +102,7 @@ After deployment, various Google Cloud APIs were enabled to ensure proper functi
 
  ii. ***Service Account Key Creation:*** While I intended to create the service account keys directly through Terraform, I encountered a JSON marshaling error. To proceed with the project, I temporarily used the gcloud CLI to generate the keys manually. In a production setting, I would resolve this issue to automate the key creation process fully.
 
- iii. ***Testing Done***: I have tested this whole document against a test project in GCP, and things do appear smooth.
+ iii. ***Testing Done***: I have tested this whole document and the deployment procedure against a test project in GCP, and things do appear smooth.
 
 ## Monitoring
 * Discussed about monitoring here: [Monitoring](https://github.com/neerajasridhar1992/helloworldflask/blob/main/Monitoring.md)
