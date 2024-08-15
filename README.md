@@ -51,7 +51,7 @@ The infrastructure is composed of the following Google Cloud Platform (GCP) reso
   * Used Docker to containerize the Flask web application, to enable deploying it to the GKE cluster, easily by encapsulating all the required dependencies. 
 
 * **CloudSQL Proxy:**
-  * For my Flask container to be able to securely connect to my CloudSQL instance, I utilized the CloudSQL Proxy, upon following instructions from [here](https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine*). Google advises using the CloudSQL Proxy to securely connect applications running in GKE to Cloud SQL instances.
+  * For my Flask container to be able to securely connect to my CloudSQL instance, I utilized the CloudSQL Proxy, upon following instructions from [here](https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine). Google advises using the CloudSQL Proxy to securely connect applications running in GKE to Cloud SQL instances.
 
 * **GKE(Autopilot)/Kubernetes:**   
   * Used Kubernetes, because it is the industry standard for container orchestration, and I can effectively scale the cluster when needed, and also take care of load balancing and self healing for my application. An Autopilot GKE provides a fully managed Kubernetes service, which means I could focus on deploying and managing applications without worrying about the underlying infrastructure. Especially, I don't have to focus on operational tasks like node provisioning, scaling and such, and focus on application development.
